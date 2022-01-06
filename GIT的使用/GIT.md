@@ -188,3 +188,70 @@ git push origin :refs/tags/v1.0
 
 
 
+### 四、分支管理
+
+分支之间是互不影响的，每个分支都是独立的，当一个分支的任务完成后就会往master分支上合并，master通常是一个稳定的分支，不在他上面工作。
+
+**1、创建与合并分支**
+
+```shell
+# 创建分支 （branch:分支）
+git branch dev
+# 切换分支 （checkout:查看）
+git checkout dev
+# 另一种切换分支（switch:转变）
+git switch master
+# 创建并切换分支
+git checkout -b dev
+git switch -c dev
+# 查看分支
+git branch
+# 合并分支 （merge:合并）
+git merge dev
+# 删除分支
+git branch -d dev
+
+```
+
+**2、合并分支冲突**
+
+一般很少会出现冲突的问题，但是有时候会也有可能出现
+
+当出现冲突是需要手动的解决
+
+```shell
+# 查看分支合并图
+git log --graph
+```
+
+**3、Fast forward模式** 
+
+这种模式下删除分支后会丢失分支信息
+
+如果强制禁用的话，Git就会在merge（合并）时生成新的commit，这样就可以看到历史的分支信息了。这样会可以看出曾经做过合并
+
+```shell
+# 强制禁用Fast forward
+git merge --no-ff -m "描述信息"  dev
+```
+
+因为禁止合并会创建commit所以需要加 -m 参数
+
+### 五、远程仓库
+
+世界知名的：Githup 
+
+国内知名的：Gitee
+
+要实现远程的克隆与推送，需要将公钥文件拷贝到远程仓库上
+
+```shell
+# 克隆远程仓库
+git clone git@192.168.10.12:/git/pub.git
+# 推送到远程仓库 分支使用自己的
+git push origin master 
+```
+
+**对于运维来说使用上，到在这里，作为日常使用其实已经够用了**
+
+### 
