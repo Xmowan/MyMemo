@@ -1,4 +1,4 @@
-## 实现简单的持续集成发布
+## Jenkins+Gitlab+apache
 
 作者：Liuhai
 
@@ -299,6 +299,6 @@ vim /usr/local/maven3/conf/settings.xml
 
 就可以验证了，如果在web服务器上的/var/www/html可以看到Gitlab中的文件就代表成功了
 
-也可以直接查看构建结果
+也可以直接查看构建结果，或访问WEB网页
 
 ![](D:\MyMemo\jenkins\结果.png)
