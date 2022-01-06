@@ -28,7 +28,7 @@ yum -y install git
 
 能够看到版本信息就说明已经成功安装了！
 
- ![](D:\MyMemo\GIT的使用\Linux-version.png)
+ ![查看版本](.\images\Linux-version.png)
 
 **2、在windows上安装git**
 
@@ -38,11 +38,11 @@ yum -y install git
 
 完成安装后，桌面右击就能看到下面这个样子就ok了
 
- ![](D:\MyMemo\GIT的使用\windows安装完成后-1.png)
+ ![](.\images\windows安装完成后-1.png)
 
 单击Git Bash Here 看到类似下面这个 就可以开始工作了
 
-  ![](D:\MyMemo\GIT的使用\windows安装完成后-2.png)
+  ![](.\images\windows安装完成后-2.png)
 
 ### 三、常用的指令
 
