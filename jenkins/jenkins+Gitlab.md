@@ -10,8 +10,6 @@ Gitlab	CentOS 7 4G内存2CPU	IP：10.10.10.12
 
 webServer	CentOS 7 2G内存2CPU	IP：10.10.10.13
 
-
-
 #### 一、Gitlab 安装部署
 
 安装版本：社区版
@@ -149,7 +147,7 @@ http://10.10.10.11:8080
 
 将插件一遍一遍的重复重试完成插件的安装，配置管理员密码重启就可以了!!
 
-#### 三、web服务器
+### 三、web服务器
 
 简单的apach就行了,安装启动
 
@@ -160,71 +158,67 @@ systemctl start httpd
 
 ---
 
-**以上都是环境准备 **
+**到这里环境准备就完成了 **
 
 ---
 
-#### 四、配置jenkins拉取Gitlab中的项目并推送到web服务器
+### 四、配置jenkins拉取Gitlab中的项目并推送到web服务器
 
-**Gitlab中的配置**
+**1、jenkins全局环境搭建**
 
-首先新建一个Jenkins（可自定义）用户，为管理员身份
+1）设置编码 系统设置-->系统配置-->全局属性，做如下配置
 
-然后以刚才建立的用户的身份登录Gitlab，创建一个项目
+![全局属性UTF-8](D:\MyMemo\jenkins\images\全局属性UTF-8.png)
 
-最后创建一个测试页面index.html用来做测试，让Jenkins拉取，并推送到web服务器中
+2）系统设置-->全局工具配置-->JDK，做如下配置
 
-<!--注意：这里采用的是使用jenkins加密码的拉取方式所以，不必纠结ssh公私钥的问题！！！-->
+![jdk配置](D:\MyMemo\jenkins\images\jdk配置.png)
 
-**jenkins中配置拉取Gitlab中的项目**
+**2、配置拉取Gitlab中的项目**
 
-1、添加凭据，也就是说Jenkins使用什么身份拉取Gitlab中项目
+1）在Gitlab中建立一个管理员用户用于在jenkins中拉取项目，后面会使用；然后使用任意一个用户创建一个项目
 
- ![](D:\MyMemo\jenkins\添加凭据.png)
+实验中就直接使用jenkins用户创建了，然后创建一个仓库，放入一个测试文件index.html
 
-2、添加全局凭据![](D:\MyMemo\jenkins\添加凭据2.png) 3、添加用户，采用的方式可以是多种这里采用用户名和密码的方式![](D:\MyMemo\jenkins\添加凭据3.png)
+![Gitlab中创建一个仓库](D:\MyMemo\jenkins\images\Gitlab中创建一个仓库.png)
 
-4、新建任务用于构建 --- 到这一步还只能是拉取下来，拉取下来的项目文件存放在/var/lib/jenkins/workspace/下
+2）添加凭据，也就是说Jenkins使用什么身份拉取Gitlab中项目
 
-![](D:\MyMemo\jenkins\拉取2.png)
+![添加凭据3](.\images\添加凭据3.png)3）然后在jenkins中新建一个任务-，任务名称自定义，选择自由风格的点击确认，然后做如下配置
 
+![拉取2](D:\MyMemo\jenkins\images\拉取2.png)
 
+![拉取1](D:\MyMemo\jenkins\images\拉取1.png)
 
-![](D:\MyMemo\jenkins\拉取1.png)
+4）测试构建---点击立即构建，除了使用图上的观察结果外还可以也可在/var/lib/jenkins/workspace/下查看！
 
-5、测试构建---点击立即构建---然后在工作空间中如果可以看到Girlab中的内容就说明拉取成功了
+到这一步我们已经将开发写的代码拉取到了jenkins这中
 
-![](D:\MyMemo\jenkins\工作空间.png)也可以在/var/lib/jenkins/workspace/下看
-
-![](D:\MyMemo\jenkins\工作空间2.png) 
-
-
+![拉取完成](D:\MyMemo\jenkins\images\拉取完成.png)
 
 ---
 
-**jenkins中配置推送项目到web服务器**
+**3、配置推送项目到web服务器**
 
 方案一：
 
-配置Publish Over SSH，用于将拉取下来的代码推送到web服务器中
+配置Publish Over SSH，用于将拉取下来的代码推送到web服务器中，是基于ssh传输的
 
-先要安装插件 Publish Over SSH
+1）先要安装插件 Publish Over SSH
 
 插件安装：系统管理 --> 插件管理 -->可选插件 --> 搜索Publish Over SSH --> 安装即可 （其他的插件也一样）
 
-然后在Jenkins中生产公私钥文件，将公钥传到web服务器中
+2）然后在Jenkins中生产公私钥文件，将公钥传到web服务器中
 
-![](D:\MyMemo\jenkins\推送配置1.png)
+3）在系统管理-->系统配置中做找到Publish SSH做如下配置
+
+![推送配置1](D:\MyMemo\jenkins\images\推送配置1.png)
 
 方案二：
 
 采用ansible的方式进行推送，也就是说可以不使用 Publish Over SSH，而使用ansible的copy模块
 
-ansible安装略....
-
-配置：
-
-将下面的打开
+1）ansible配置
 
 ```shell
 vim /etc/ansible/ansible.cfg
@@ -235,35 +229,39 @@ host_key_checking = False
 remote_user = root 	
 ```
 
-然后在/var/lib/jenkins/.ssh中生成公私钥文件，然后将公钥文件拷贝到web服务器中
+2）然后在/var/lib/jenkins/.ssh中生成公私钥文件，然后将公钥文件拷贝到web服务器中 
+
+3）这里的脚本是在，jenkins机器上执行行的，而且实在我们成功拉取项目后执行的。要明白的目的就是将拉取下来的项目传输到web服务起的网站发布目录下。
+
+![angsible推送](D:\MyMemo\jenkins\images\angsible推送.png)
 
 再在构建设置中选择执行shell的方式
 
-在命令框中就可以ansible命令来进行拷贝了
-
-![](D:\MyMemo\jenkins\ansibled1.png)
+![报错](D:\MyMemo\jenkins\images\报错.png)
 
 报如下错误：
-
-![](D:\MyMemo\jenkins\报错.png)
 
 解决方案：
 
  https://www.cnblogs.com/rwxwsblog/p/5658703.html
 
-**系统配置**
+4）然后打开web服务器的网页，能够看到 index.html中的内容就算是完成了
 
- 配置系统环境![](D:\MyMemo\jenkins\全局配置1.png)
+http://10.10.10.13:80
 
-设置编码（本实验的可选项，不做不影响结果）
+---
 
-![](D:\MyMemo\jenkins\全局配置2.png)
+**到这里jenkins的基本使用就算是完成了，我们可以实现一键构建了（限于html、php这样不需要编译的）**
 
-指定jdk的路径
+---
 
- ![](D:\MyMemo\jenkins\jdk配置.png)
+### 五、实现对Java项目的构建，然后发布到Tomcat中
 
-指定Maven路径（这个在该项目中用不到，后面需要构建的时候就会用到，在这里也可以先不配置，自由选择）
+**1、在jenkins服务器上准备maven环境**
+
+Maven是基于项目对象模型，可以通过一小段描述信息来管理项目的构建，报告和文档的软件项目管理工具。 
+
+Maven采用纯Java编写, 它采用了一种被称之为Project Object Model(POM)概念来管理项目，所有的项目配置信息都被定义在一个叫做POM.xml的文件中, 通过该文件Maven可以管理项目的整个生命周期，包括清除、编译，测试，报告、打包、部署等等。 
 
 ```shell
 # 解压
@@ -276,7 +274,7 @@ export MAVEN_HOME=/usr/local/maven3
 export PATH=$MAVEN_HOME/bin:$PATH
 # 使环境生效
 . /etc/profile.d/maven3.sh
-# 验证
+# 验证 可以看到版本信息就代表成了
 mav -v
 # 配置加速
 vim /usr/local/maven3/conf/settings.xml
@@ -289,16 +287,166 @@ vim /usr/local/maven3/conf/settings.xml
 </mirror>
 ```
 
-完成后就可以配置了
+**2、需要准备一个项目直接从Gitee上下载一个然后push到我们的Gitlab中，就相当于开发提交了一次代码**
 
-![](D:\MyMemo\jenkins\Maven插件.png)
+https://github.com/bingyue/easy-springmvc-maven
 
-**验证**
+**3、准备一台Tomcat服务器，这里直接装在之前的web服务器上，安装过程略**
 
-点击立即构建
+**4、这次采用私钥凭证拉取代码，将jenkins中的公钥复制到Gitlib中的ssh中，然后在jenkins中**
 
-就可以验证了，如果在web服务器上的/var/www/html可以看到Gitlab中的文件就代表成功了
+再将公钥加入到jenkins中的凭据中
 
-也可以直接查看构建结果，或访问WEB网页
+![私钥拉取代码](D:\MyMemo\jenkins\images\私钥拉取代码.png)
 
-![](D:\MyMemo\jenkins\结果.png)
+![公钥拉取代码](D:\MyMemo\jenkins\images\公钥拉取代码.png)
+
+**5、创建一个maven风格的任务，然后使用git的方式拉取项目，如果没有构建maven项目的那个选项，就是没有安装插件[Maven Integration](https://plugins.jenkins.io/maven-plugin) ，按照之前安装插件的方式安装即可，然后设置发布步骤**
+
+![maven项目](D:\MyMemo\jenkins\images\maven项目.png)
+
+![使用key凭据](D:\MyMemo\jenkins\images\使用key凭据.png)
+
+![传输wra包](D:\MyMemo\jenkins\images\传输wra包.png)
+
+**6、使用Publish over SSH的方式传输**
+
+![war包传输](D:\MyMemo\jenkins\images\war包传输.png)
+
+**7、然后打开web服务器的网页，能够看到 网页就代表成功了**
+
+http://10.10.10.13:8080
+
+---
+
+**之前的实验中我们都是通过手动点击构建来触发构建，下面就来讲一下利用触发器自动构建**
+
+---
+
+### 六、触发器
+
+**1、在哪儿构建**
+
+![构建触发器](D:\MyMemo\jenkins\images\构建触发器.png)
+
+**2、常见的触发方式**
+
+- 定时构建(Build perriodocally)，在一个固定的时间，无条件自动构建
+- 轮询构建(SCM)，在定时构建的基础上增加了条件，会自动检查仓库是否有变化，有才构建
+- Push事件触发，当向仓库的某个分支（一般为master）成功push代码后，就会触发构建
+- 远程触发通过预定URL来触发，一般会结合脚本使用
+
+**3、Push事件触发器的使用**
+
+安装GitLab插件
+
+jenkins上设置：在任务中做设置，然后勾选上进行如下设置
+
+![触发地址](D:\MyMemo\jenkins\images\触发地址.png)
+
+![触发分支](D:\MyMemo\jenkins\images\触发分支.png)
+
+![生成令牌](D:\MyMemo\jenkins\images\生成令牌.png)
+
+在Gitlab上设置：
+
+使用管理员身份登录，在设置中做如下设置
+
+![打开外发请求](D:\MyMemo\jenkins\images\打开外发请求.png)
+
+然后在项目中做如下设置
+
+![添加触发事件](D:\MyMemo\jenkins\images\添加触发事件.png)
+
+最后点击测试观察是否能够自动构建
+
+**4、远程触发**
+
+远程触发需要设置匿名用户具有可读权限
+
+系统管理 - 全局安全配置 - 授权策略 - 匿名用户具有可读权限 
+
+![匿名用户可读](D:\MyMemo\jenkins\images\匿名用户可读.png)
+
+然后在任务管理页添加触发器
+
+![远程触发构建](D:\MyMemo\jenkins\images\远程触发构建.png)
+
+通过访问：ip/job/easy-springmvc/build?token= 12346（身份令牌）
+
+如果能够触发构建就代表成功了
+
+---
+
+**通过构建触发器我们可以实现，自动化的构建了，但是不够灵活，不能实现版本的回退，于是就有了参数化构建**
+
+---
+
+### 七、参数化构建
+
+**1、简介**
+
+参数化构建，可以让我们实现定制化的任务
+
+参数名称 = 变量值
+
+可以理解为我们定义了一个变量，在构建时给不同值，让jenkins为我们做不同的事，也可以利用在脚本中
+
+**2、利用参数化和tag实现版本的切换**
+
+1）首先得有打标签的版本
+
+![分支](D:\MyMemo\jenkins\images\分支.png)
+
+2）简单配置一下
+
+![定义一个Git参数](D:\MyMemo\jenkins\images\定义一个Git参数.png)
+
+![指定tag分支](D:\MyMemo\jenkins\images\指定tag分支.png)
+
+3）测试构建
+
+![tag测试](D:\MyMemo\jenkins\images\tag测试.png)
+
+----
+
+### 八、流水线
+
+流水线（pipline）是指按顺序连接在一起的事件或作业组 
+
+**1、相关概念**
+
+ **pipline** - 定义整个构建过程，通常包括构建应用程序、测试和交付应用程序的阶段。 
+
+**node** - 节点，执行流水线的机器 
+
+**stage** - 阶段，定义阶段性的任务，是多个step的子集 
+
+**step** - 步骤，定义单一的任务 
+
+**3、创建的方法**
+
+1）通过Jenkinsfile语法来创建，通常有两种语法 一种是脚本式的 另一种是声明式的。声明式更容易上手。
+
+2）还有一种方式就是通过Blue Ocean（蓝色海洋） 这个插件来创建，非常适合初学者
+
+**4、一个声明式语法的示例**
+
+```shell
+node {
+    stage('build'){
+     echo 'build';
+    }
+    
+    stage('test'){
+     echo 'test';
+    }
+    
+    stage('deploy'){
+     echo 'deploy';
+    }
+}
+```
+
+无论以那种方式创建一个流水线后，都会在仓库中自动生成一个jenkinsfile的文件
+

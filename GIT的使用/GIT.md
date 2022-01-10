@@ -246,6 +246,10 @@ git merge --no-ff -m "描述信息"  dev
 要实现远程的克隆与推送，需要将公钥文件拷贝到远程仓库上
 
 ```shell
+# 关联远程仓库
+git remote add my-gitlab git@192.168.10.23:maven-test/maven-proj.git
+# 查看关联信息
+git remote -v
 # 克隆远程仓库
 git clone git@192.168.10.12:/git/pub.git
 # 推送到远程仓库 分支使用自己的
@@ -253,5 +257,3 @@ git push origin master
 ```
 
 **对于运维来说使用上，到在这里，作为日常使用其实已经够用了**
-
-### 
