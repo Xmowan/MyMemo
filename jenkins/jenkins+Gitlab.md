@@ -168,11 +168,11 @@ systemctl start httpd
 
 1）设置编码 系统设置-->系统配置-->全局属性，做如下配置
 
-![全局属性UTF-8](D:\MyMemo\jenkins\images\全局属性UTF-8.png)
+![全局属性UTF-8](https://gitee.com/Xmowan/ims/raw/master/ims/%E5%85%A8%E5%B1%80%E5%B1%9E%E6%80%A7UTF-8.png)
 
 2）系统设置-->全局工具配置-->JDK，做如下配置
 
-![jdk配置](D:\MyMemo\jenkins\images\jdk配置.png)
+![jdk配置](https://gitee.com/Xmowan/ims/raw/master/ims/jdk%E9%85%8D%E7%BD%AE.png)
 
 **2、配置拉取Gitlab中的项目**
 
@@ -180,21 +180,21 @@ systemctl start httpd
 
 实验中就直接使用jenkins用户创建了，然后创建一个仓库，放入一个测试文件index.html
 
-![Gitlab中创建一个仓库](D:\MyMemo\jenkins\images\Gitlab中创建一个仓库.png)
+![Gitlab中创建一个仓库](https://gitee.com/Xmowan/ims/raw/master/ims/Gitlab%E4%B8%AD%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E4%BB%93%E5%BA%93.png)
 
 2）添加凭据，也就是说Jenkins使用什么身份拉取Gitlab中项目
 
-![添加凭据3](.\images\添加凭据3.png)3）然后在jenkins中新建一个任务-，任务名称自定义，选择自由风格的点击确认，然后做如下配置
+![添加凭据3](https://gitee.com/Xmowan/ims/raw/master/ims/%E6%B7%BB%E5%8A%A0%E5%87%AD%E6%8D%AE3.png)3）然后在jenkins中新建一个任务-，任务名称自定义，选择自由风格的点击确认，然后做如下配置
 
-![拉取2](D:\MyMemo\jenkins\images\拉取2.png)
+![拉取2](https://gitee.com/Xmowan/ims/raw/master/ims/%E6%8B%89%E5%8F%962.png)
 
-![拉取1](D:\MyMemo\jenkins\images\拉取1.png)
+![拉取1](https://gitee.com/Xmowan/ims/raw/master/ims/%E6%8B%89%E5%8F%961.png)
 
 4）测试构建---点击立即构建，除了使用图上的观察结果外还可以也可在/var/lib/jenkins/workspace/下查看！
 
 到这一步我们已经将开发写的代码拉取到了jenkins这中
 
-![拉取完成](D:\MyMemo\jenkins\images\拉取完成.png)
+![拉取完成](https://gitee.com/Xmowan/ims/raw/master/ims/%E6%8B%89%E5%8F%96%E5%AE%8C%E6%88%90.png)
 
 ---
 
@@ -212,7 +212,7 @@ systemctl start httpd
 
 3）在系统管理-->系统配置中做找到Publish SSH做如下配置
 
-![推送配置1](D:\MyMemo\jenkins\images\推送配置1.png)
+![推送配置1](https://gitee.com/Xmowan/ims/raw/master/ims/%E6%8E%A8%E9%80%81%E9%85%8D%E7%BD%AE1.png)
 
 方案二：
 
@@ -233,11 +233,11 @@ remote_user = root
 
 3）这里的脚本是在，jenkins机器上执行行的，而且实在我们成功拉取项目后执行的。要明白的目的就是将拉取下来的项目传输到web服务起的网站发布目录下。
 
-![angsible推送](D:\MyMemo\jenkins\images\angsible推送.png)
+![angsible推送](https://gitee.com/Xmowan/ims/raw/master/ims/angsible%E6%8E%A8%E9%80%81.png)
 
 再在构建设置中选择执行shell的方式
 
-![报错](D:\MyMemo\jenkins\images\报错.png)
+![报错](https://gitee.com/Xmowan/ims/raw/master/ims/%E6%8A%A5%E9%94%99.png)
 
 报如下错误：
 
@@ -297,21 +297,21 @@ https://github.com/bingyue/easy-springmvc-maven
 
 再将公钥加入到jenkins中的凭据中
 
-![私钥拉取代码](D:\MyMemo\jenkins\images\私钥拉取代码.png)
+![私钥拉取代码](https://gitee.com/Xmowan/ims/raw/master/ims/%E7%A7%81%E9%92%A5%E6%8B%89%E5%8F%96%E4%BB%A3%E7%A0%81.png)
 
-![公钥拉取代码](D:\MyMemo\jenkins\images\公钥拉取代码.png)
+![公钥拉取代码](https://gitee.com/Xmowan/ims/raw/master/ims/%E5%85%AC%E9%92%A5%E6%8B%89%E5%8F%96%E4%BB%A3%E7%A0%81.png)
 
 **5、创建一个maven风格的任务，然后使用git的方式拉取项目，如果没有构建maven项目的那个选项，就是没有安装插件[Maven Integration](https://plugins.jenkins.io/maven-plugin) ，按照之前安装插件的方式安装即可，然后设置发布步骤**
 
-![maven项目](D:\MyMemo\jenkins\images\maven项目.png)
+![maven项目](https://gitee.com/Xmowan/ims/raw/master/ims/maven%E9%A1%B9%E7%9B%AE.png)
 
-![使用key凭据](D:\MyMemo\jenkins\images\使用key凭据.png)
+![使用key凭据](https://gitee.com/Xmowan/ims/raw/master/ims/%E4%BD%BF%E7%94%A8key%E5%87%AD%E6%8D%AE.png)
 
-![传输wra包](D:\MyMemo\jenkins\images\传输wra包.png)
+![传输wra包](https://gitee.com/Xmowan/ims/raw/master/ims/%E4%BC%A0%E8%BE%93wra%E5%8C%85.png)
 
 **6、使用Publish over SSH的方式传输**
 
-![war包传输](D:\MyMemo\jenkins\images\war包传输.png)
+![war包传输](https://gitee.com/Xmowan/ims/raw/master/ims/war%E5%8C%85%E4%BC%A0%E8%BE%93.png)
 
 **7、然后打开web服务器的网页，能够看到 网页就代表成功了**
 
@@ -327,7 +327,7 @@ http://10.10.10.13:8080
 
 **1、在哪儿构建**
 
-![构建触发器](D:\MyMemo\jenkins\images\构建触发器.png)
+![构建触发器](https://gitee.com/Xmowan/ims/raw/master/ims/%E6%9E%84%E5%BB%BA%E8%A7%A6%E5%8F%91%E5%99%A8.png)
 
 **2、常见的触发方式**
 
@@ -342,21 +342,21 @@ http://10.10.10.13:8080
 
 jenkins上设置：在任务中做设置，然后勾选上进行如下设置
 
-![触发地址](D:\MyMemo\jenkins\images\触发地址.png)
+![触发地址](https://gitee.com/Xmowan/ims/raw/master/ims/%E8%A7%A6%E5%8F%91%E5%9C%B0%E5%9D%80.png)
 
-![触发分支](D:\MyMemo\jenkins\images\触发分支.png)
+![触发分支](https://gitee.com/Xmowan/ims/raw/master/ims/%E8%A7%A6%E5%8F%91%E5%88%86%E6%94%AF.png)
 
-![生成令牌](D:\MyMemo\jenkins\images\生成令牌.png)
+![生成令牌](https://gitee.com/Xmowan/ims/raw/master/ims/%E7%94%9F%E6%88%90%E4%BB%A4%E7%89%8C.png)
 
 在Gitlab上设置：
 
 使用管理员身份登录，在设置中做如下设置
 
-![打开外发请求](D:\MyMemo\jenkins\images\打开外发请求.png)
+![打开外发请求](https://gitee.com/Xmowan/ims/raw/master/ims/%E6%89%93%E5%BC%80%E5%A4%96%E5%8F%91%E8%AF%B7%E6%B1%82.png)
 
 然后在项目中做如下设置
 
-![添加触发事件](D:\MyMemo\jenkins\images\添加触发事件.png)
+![添加触发事件](https://gitee.com/Xmowan/ims/raw/master/ims/%E6%B7%BB%E5%8A%A0%E8%A7%A6%E5%8F%91%E4%BA%8B%E4%BB%B6.png)
 
 最后点击测试观察是否能够自动构建
 
@@ -366,11 +366,11 @@ jenkins上设置：在任务中做设置，然后勾选上进行如下设置
 
 系统管理 - 全局安全配置 - 授权策略 - 匿名用户具有可读权限 
 
-![匿名用户可读](D:\MyMemo\jenkins\images\匿名用户可读.png)
+![匿名用户可读](https://gitee.com/Xmowan/ims/raw/master/ims/%E5%8C%BF%E5%90%8D%E7%94%A8%E6%88%B7%E5%8F%AF%E8%AF%BB.png)
 
 然后在任务管理页添加触发器
 
-![远程触发构建](D:\MyMemo\jenkins\images\远程触发构建.png)
+![远程触发构建](https://gitee.com/Xmowan/ims/raw/master/ims/%E8%BF%9C%E7%A8%8B%E8%A7%A6%E5%8F%91%E6%9E%84%E5%BB%BA.png)
 
 通过访问：ip/job/easy-springmvc/build?token= 12346（身份令牌）
 
@@ -396,17 +396,17 @@ jenkins上设置：在任务中做设置，然后勾选上进行如下设置
 
 1）首先得有打标签的版本
 
-![分支](D:\MyMemo\jenkins\images\分支.png)
+![分支](https://gitee.com/Xmowan/ims/raw/master/ims/%E5%88%86%E6%94%AF.png)
 
 2）简单配置一下
 
-![定义一个Git参数](D:\MyMemo\jenkins\images\定义一个Git参数.png)
+![定义一个Git参数](https://gitee.com/Xmowan/ims/raw/master/ims/%E5%AE%9A%E4%B9%89%E4%B8%80%E4%B8%AAGit%E5%8F%82%E6%95%B0.png)
 
-![指定tag分支](D:\MyMemo\jenkins\images\指定tag分支.png)
+![指定tag分支](https://gitee.com/Xmowan/ims/raw/master/ims/%E6%8C%87%E5%AE%9Atag%E5%88%86%E6%94%AF.png)
 
 3）测试构建
 
-![tag测试](D:\MyMemo\jenkins\images\tag测试.png)
+![tag测试](https://gitee.com/Xmowan/ims/raw/master/ims/tag%E6%B5%8B%E8%AF%95.png)
 
 ----
 
